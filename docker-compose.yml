@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  neo4j:
+    image: neo4j
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/logs:/logs
+      - ./neo4j/import:/var/lib/neo4j/import
+      - ./neo4j/plugins:/plugins
+    environment:
+      - NEO4J_AUTH=neo4j/test
+      - NEO4J_dbms_security_procedures_unrestricted=algo.\\\* \
+
+  jupyter-notebook-hdx:
+    build: .
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work
+    working_dir: /home/jovyan/work
