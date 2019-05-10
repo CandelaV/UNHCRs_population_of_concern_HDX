@@ -1,0 +1,27 @@
+# Virtual environment
+venv/
+
+# model
+models/
+
+# data
+data/
+neo4j/data/
+neo4j/import/
+neo4j/logs/
+neo4j/plugins/
+
+# notebooks
+notebooks/.ipynb_checkpoints
+tests/.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# Mac OS-specific storage files
+.DS_Store
+
+# testing
+.nbconvert/
+.hypothesis/
+.pytest_cache/
