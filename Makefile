@@ -24,5 +24,5 @@ clean-neo4j:
 load-neo4j:
 	rm -rf neo4j/data/databases/graphHDX.db
 	cp ${PWD}/data/processed/neo4j/* ${PWD}/neo4j/import/
-	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes:Country import/test_countries_residing.csv --relationships:ORIGINATE_FROM ./import/test_residing.csv
+	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes:Country import/countries_residing.csv --relationships:ORIGINATE_FROM ./import/relationsips_residing.csv
 	docker-compose restart neo4j-hdx
