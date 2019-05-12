@@ -16,3 +16,13 @@ test: scripts
 	py.test ${PWD}/.nbconvert/tests
 lint: scripts
 	flake8 ${PWD}/.nbconvert/src
+
+clean-neo4j: 
+	rm -rf ${PWD}/neo4j/data/databases ${PWD}/neo4j/data/dbms
+	rm -f ${PWD}/neo4j/logs/*
+	rm -f ${PWD}/neo4j/import/*
+load-neo4j:
+	rm -rf neo4j/data/databases/graphHDX.db
+	cp ${PWD}/data/processed/neo4j/* ${PWD}/neo4j/import/
+	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes:Country import/countries_residing.csv --relationships:ORIGINATE_FROM ./import/relationsips_residing.csv
+	docker-compose restart neo4j-hdx
