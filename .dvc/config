@@ -1,0 +1,4 @@
+['remote "gsremote"']
+url = gs://population_of_concern_hdx
+[core]
+remote = gsremote
