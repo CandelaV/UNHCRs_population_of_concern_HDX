@@ -6,23 +6,31 @@ up:
 	docker-compose up -d
 down:
 	docker-compose down
-
-clean-test:
-	rm -rf ${PWD}/.nbconvert ${PWD}/.hypothesis ${PWD}/.pytest_cache
-scripts: clean-test
-	find ${PWD}/notebooks -name "*.ipynb" ! -iname "*checkpoint*" -exec jupyter nbconvert --output-dir=${WS_DIR}/.nbconvert/src --to=python --template=custompython.tpl {} \;
-	find ${PWD}/tests -name "*.ipynb" ! -iname "*checkpoint*" -exec jupyter nbconvert --output-dir=${WS_DIR}/.nbconvert/tests --to=python --template=custompython.tpl {} \;
-test: scripts
-	py.test ${PWD}/.nbconvert/tests
-lint: scripts
-	flake8 ${PWD}/.nbconvert/src
+juopyter:
+	docker-compose start jupyter-hdx
 
 clean-neo4j: 
 	rm -rf ${PWD}/neo4j/data/databases ${PWD}/neo4j/data/dbms
 	rm -f ${PWD}/neo4j/logs/*
 	rm -f ${PWD}/neo4j/import/*
-load-neo4j:
-	rm -rf neo4j/data/databases/graphHDX.db
-	cp ${PWD}/data/processed/neo4j/* ${PWD}/neo4j/import/
-	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes:Country import/countries_residing.csv --relationships:ORIGINATE_FROM ./import/relationsips_residing.csv
+load-neo4j-residing: clean-neo4j
+	cp ${PWD}/data/processed/neo4j/*residing.csv ${PWD}/neo4j/import/
+	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_residing.csv --nodes import/countries_residing.csv --relationships import/relationships_residing.csv --relationships import/countries_years_relationship_residing.csv
 	docker-compose restart neo4j-hdx
+load-neo4j-originating: clean-neo4j
+	cp ${PWD}/data/processed/neo4j/*originating.csv ${PWD}/neo4j/import/
+	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_originating.csv --nodes import/countries_originating.csv --relationships import/relationships_originating.csv --relationships import/countries_years_relationship_originating.csv
+	docker-compose restart neo4j-hdx
+
+## Tests Section In progress
+clean-test:
+	rm -rf ${PWD}/.nbconvert ${PWD}/.hypothesis ${PWD}/.pytest_cache
+scripts: clean-test
+	find ${PWD}/notebooks -name "*.ipynb" ! -iname "*checkpoint*" -exec jupyter nbconvert --output-dir=${PWD}/.nbconvert/src --to=python --template=custompython.tpl {} \;
+	find ${PWD}/tests -name "*.ipynb" ! -iname "*checkpoint*" -exec jupyter nbconvert --output-dir=${PWD}/.nbconvert/tests --to=python --template=custompython.tpl {} \;
+	cp ${PWD}/tests/conftest.py ${PWD}/.nbconvert/tests
+test: scripts
+	py.test ${PWD}/.nbconvert/tests
+test-nb:
+	py.test --nbval-lax notebooks/data_retrieval_from_hdx.ipynb
+##

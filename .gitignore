@@ -26,3 +26,4 @@ tests/.ipynb_checkpoints
 .nbconvert/
 .hypothesis/
 .pytest_cache/
+/data
