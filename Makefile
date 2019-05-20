@@ -9,6 +9,7 @@ down:
 juopyter:
 	docker-compose start jupyter-hdx
 
+# Neo4j commands
 clean-neo4j: 
 	rm -rf ${PWD}/neo4j/data/databases ${PWD}/neo4j/data/dbms
 	rm -f ${PWD}/neo4j/logs/*
@@ -34,3 +35,15 @@ test: scripts
 test-nb:
 	py.test --nbval-lax notebooks/data_retrieval_from_hdx.ipynb
 ##
+
+## Google cloud
+install-dk:
+	sudo -s # login as superuser
+	apt-get update
+	apt-get install docker.io -y
+install-dk-compose: install-dk
+	sudo -s
+	apt-get update
+	apt-get install python-pip -y
+	pip install --upgrade pip
+	pip install docker-compose
