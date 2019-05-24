@@ -1,5 +1,6 @@
 export PWD=`pwd`
 
+# Docker commands
 build:
 	docker-compose up -d --build
 up:
@@ -23,7 +24,30 @@ load-neo4j-originating: clean-neo4j
 	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_originating.csv --nodes import/countries_originating.csv --relationships import/relationships_originating.csv --relationships import/countries_years_relationship_originating.csv
 	docker-compose restart neo4j-hdx
 
-## Tests Section In progress
+# Google cloud installations
+install-dk:
+	sudo -s # login as superuser
+	apt-get update
+	apt-get install docker.io -y
+install-dk-compose:
+	sudo -s
+	apt-get update
+	curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	chmod +x /usr/local/bin/docker-compose
+	docker-compose --version
+install-dvc:
+	sudo -s
+	apt-get update
+	wget https://dvc.org/deb/dvc.list -O /etc/apt/sources.list.d/dvc.list
+	sudo apt-get install apt-transport-https
+	apt-get install dvc
+
+# Conect to google cloud instance
+conect-to-hdx:
+	gcloud compute ssh hdx
+
+## tests 
+## Section In progress
 clean-test:
 	rm -rf ${PWD}/.nbconvert ${PWD}/.hypothesis ${PWD}/.pytest_cache
 scripts: clean-test
@@ -34,16 +58,3 @@ test: scripts
 	py.test ${PWD}/.nbconvert/tests
 test-nb:
 	py.test --nbval-lax notebooks/data_retrieval_from_hdx.ipynb
-##
-
-## Google cloud
-install-dk:
-	sudo -s # login as superuser
-	apt-get update
-	apt-get install docker.io -y
-install-dk-compose: install-dk
-	sudo -s
-	apt-get update
-	apt-get install python-pip -y
-	pip install --upgrade pip
-	pip install docker-compose
