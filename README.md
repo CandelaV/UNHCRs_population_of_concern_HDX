@@ -4,4 +4,4 @@ The objective of this project is to extract worldwide Asylum Seekers' data from 
 
 The proposed architecture is based on Docker Containers orchestrated with Docker Compose.  Two docker images will be build, one with python and **Jupyter Notebooks** and another one with **Neo4j**. For reproducibility and version control, GitHub will be used for code and DVC for data.
 
-![architecture](docs/ProposedArchitecture.png)
+![architecture](figures/ProposedArchitecture.png)
