@@ -18,11 +18,19 @@ clean-neo4j:
 load-neo4j-residing: clean-neo4j
 	cp ${PWD}/data/processed/neo4j/*residing.csv ${PWD}/neo4j/import/
 	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_residing.csv --nodes import/countries_residing.csv --relationships import/relationships_residing.csv --relationships import/countries_years_relationship_residing.csv
-	docker-compose restart neo4j-hdx
+	COMPOSE_HTTP_TIMEOUT=400 docker-compose restart neo4j-hdx
+load-neo4j-residing-all: clean-neo4j
+	cp ${PWD}/data/processed/neo4j/*residing.csv ${PWD}/neo4j/import/
+	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_residing.csv --nodes import/countries_residing.csv --relationships import/relationships_all_residing.csv --relationships import/countries_years_relationship_residing.csv
+	COMPOSE_HTTP_TIMEOUT=400 docker-compose restart neo4j-hdx
 load-neo4j-originating: clean-neo4j
 	cp ${PWD}/data/processed/neo4j/*originating.csv ${PWD}/neo4j/import/
 	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_originating.csv --nodes import/countries_originating.csv --relationships import/relationships_originating.csv --relationships import/countries_years_relationship_originating.csv
-	docker-compose restart neo4j-hdx
+	COMPOSE_HTTP_TIMEOUT=200 docker-compose restart neo4j-hdx
+load-neo4j-originating-all: clean-neo4j
+	cp ${PWD}/data/processed/neo4j/*originating.csv ${PWD}/neo4j/import/
+	docker exec -it neo4j-hdx-container bin/neo4j-import -into data/databases/graphHDX.db --nodes import/countries_nodes_originating.csv --nodes import/countries_originating.csv --relationships import/relationships_all_originating.csv --relationships import/countries_years_relationship_originating.csv
+	COMPOSE_HTTP_TIMEOUT=200 docker-compose restart neo4j-hdx
 
 # Google cloud installations
 install-dk:
