@@ -7,7 +7,7 @@ up:
 	docker-compose up -d
 down:
 	docker-compose down
-juopyter:
+jupyter:
 	docker-compose start jupyter-hdx
 
 # Neo4j commands
