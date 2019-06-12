@@ -26,3 +26,11 @@ services:
     volumes:
       - .:/home/jovyan/work
     working_dir: /home/jovyan/work
+
+#  nginx-hdx:
+#    image: nginx:alpine
+#    container_name: nginx-hdx-container
+#    volumes:
+#     - ./neovis-js/:/usr/share/nginx/html/
+#    ports:
+#     - "8080:80"

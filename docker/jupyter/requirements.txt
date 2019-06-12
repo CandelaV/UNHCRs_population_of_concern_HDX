@@ -3,4 +3,6 @@ py2neo
 neo4j
 nbdime
 tqdm
+tabulate
+networkx
 graphframes
