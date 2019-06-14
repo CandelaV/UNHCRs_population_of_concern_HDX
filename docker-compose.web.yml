@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+
+  neo4j-hdx:
+    build: ./docker/neo4j
+    image: neo4j-hdx
+    container_name: neo4j-hdx-container
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/logs:/logs
+      - ./neo4j/import:/var/lib/neo4j/import
+    environment:
+      - NEO4J_AUTH=neo4j/test
+      - NEO4J_dbms_active__database=graphHDX.db
+
+  jupyter-hdx:
+    build: ./docker/jupyter
+    image: jupyter-hdx
+    container_name: jupyter-hdx-container
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work
+    working_dir: /home/jovyan/work
+
+  nginx-hdx:
+    image: nginx:alpine
+    container_name: nginx-hdx-container
+    volumes:
+     - ./neovis-js/:/usr/share/nginx/html/:ro
+    ports:
+     - "8080:80"
+
