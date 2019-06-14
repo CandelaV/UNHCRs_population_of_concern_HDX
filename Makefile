@@ -7,8 +7,6 @@ up:
 	docker-compose up -d
 down:
 	docker-compose down
-jupyter:
-	docker-compose start jupyter-hdx
 
 # Neo4j commands
 clean-neo4j: 
