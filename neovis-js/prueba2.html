@@ -39,8 +39,9 @@
                 server_password: "test",
                 labels: {
                     "CountryYear":{
-                        "caption": "countryearId",
-                        "size": "population",
+                        "caption": "country",
+                        "size": "centrality",
+                        "community": "community_louvain"
                     }
 
                 },
@@ -52,7 +53,7 @@
                     }
 
                 },
-                initial_cypher: "MATCH p=(n)-[r:RESIDE_IN]->() WHERE n.year=2017 AND n.country='Colombia' RETURN p LIMIT 75",
+                initial_cypher: "MATCH p=(n)-[r:RESIDE_IN]->() WHERE n.year=2017 AND r.affected_total>=500 RETURN p",
                 arrows: true
             };
 
