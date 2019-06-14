@@ -8,6 +8,14 @@ up:
 down:
 	docker-compose down
 
+build-web:
+	docker-compose -f docker-compose.web.yml up -d --build
+up-web:
+	docker-compose -f docker-compose.web.yml up -d 
+down-web:
+	docker-compose -f docker-compose.web.yml down
+
+
 # Neo4j commands
 clean-neo4j: 
 	rm -rf ${PWD}/neo4j/data/databases ${PWD}/neo4j/data/dbms
