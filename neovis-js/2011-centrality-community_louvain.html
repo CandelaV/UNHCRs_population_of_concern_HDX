@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Neovis.js Simple Example</title>
+        <style type="text/css">
+            html, body {
+                font: 16pt arial;
+            }
+    
+            #viz {
+                width: 1400px;
+                height: 650px;
+                font: 22pt arial;
+            }
+        </style>
+    </head>
+
+    <header>
+        <h2>Asylum Seekers in 2011</h2>
+    </header>
+
+    <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+    
+
+    <body onload="draw()">
+        <div id="viz"></div>
+    </body>    
+
+    <script type="text/javascript">
+
+        var viz;
+
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://34.74.41.30:7687",
+                server_user: "neo4j",
+                server_password: "test",
+                labels: {
+                    "CountryYear":{
+                        "caption": "country",
+                        "size": "centrality",
+                        "community": "community_louvain"
+                    }
+
+                },
+                relationships: {
+                    "RESIDE_IN":{
+                        "caption": false,
+                        "thickness": "affected_total"
+
+                    }
+
+                },
+                initial_cypher: "MATCH p=(n)-[r:RESIDE_IN]->() WHERE n.year=2011 AND r.affected_total>=500 RETURN p",
+                arrows: true
+            };
+
+            viz = new NeoVis.default(config);
+            viz.render();
+            
+        }
+    </script>
+
+</html>
