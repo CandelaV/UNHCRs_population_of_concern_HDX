@@ -7,8 +7,14 @@ up:
 	docker-compose up -d
 down:
 	docker-compose down
-jupyter:
-	docker-compose start jupyter-hdx
+
+build-web:
+	docker-compose -f docker-compose.web.yml up -d --build
+up-web:
+	docker-compose -f docker-compose.web.yml up -d 
+down-web:
+	docker-compose -f docker-compose.web.yml down
+
 
 # Neo4j commands
 clean-neo4j: 
