@@ -57,7 +57,7 @@ install-dvc:
 	apt-get install dvc
 
 # Conect to google cloud instance
-conect-to-hdx:
+connect-to-hdx:
 	gcloud compute ssh hdx
 
 ## tests 
